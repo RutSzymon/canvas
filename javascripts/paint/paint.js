@@ -5,6 +5,7 @@ class Paint {
       this.canvasCnt = document.querySelector(".paint-canvas-cnt");
       this.createCanvas();
       this.setControls();
+      this.bindControls();
 
       //czy mozemy rysowac
       this.canDraw = false;
@@ -51,6 +52,35 @@ class Paint {
     this.ctx.lineJoin = "round";
     this.ctx.lineCap = "round";
     this.ctx.strokeStyle = this.colorElem.value;
+  }
+
+  bindControls() {
+    //dla każdego elementu przypinamy metody bindem
+    //bo chcemy w nich mieć dostęp do naszego obiektu paint
+    this.sizeElem.addEventListener("change", this.changeSize.bind(this));
+    this.sizeElem.addEventListener("input", this.changeSize.bind(this));
+
+    this.colorElem.addEventListener("change", this.changeColor.bind(this))
+
+    this.canvasCnt.addEventListener("mousemove", this.mouseMove.bind(this));
+    this.canvasCnt.addEventListener("mouseup", this.mouseDisable.bind(this));
+    this.canvasCnt.addEventListener("mousedown", this.mouseEnable.bind(this));
+
+    //po kliknięciu w przycisk zmiany trybu rysowania
+    //wszystkim jego braciom wyłączamy klasę .active, a włączamy tylko temu klikniętemu
+    //dodatkowo ustawiamy tryb rysowania na pobrany z dataset.mode klikniętego przycisku
+    for (const el of this.btnsMode) {
+      el.addEventListener("click", (e) => {
+        e.currentTarget.classList.add("active");
+        this.mode = e.currentTarget.dataset.mode;
+
+        for (const el of this.btnsMode) {
+          if (el !== e.currentTarget) {
+            el.classList.remove("active");
+          }
+        };
+      });
+    }
   }
 }
 
