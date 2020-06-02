@@ -5,6 +5,10 @@ class Paint {
       this.canvasCnt = document.querySelector(".paint-canvas-cnt");
       this.createCanvas();
       this.setControls();
+
+      //czy mozemy rysowac
+      this.canDraw = false;
+      this.mode = "draw";
     });
     this.img.src = "canvas-bg.png";
   }
@@ -29,5 +33,13 @@ class Paint {
 
       //element do pobierania koloru
       this.colorElem = document.querySelector(".paint-color");
+
+      //przyciski akcji - zamieniamy je na tablicę by łatwiej działać
+      this.btnsMode = [...document.querySelectorAll(".paint-buttons-cnt .button-mode")];
+
+      //dla przycisku z trybem draw dodajemy klasę active
+      this.btnsMode.filter(function(el) {
+        return el.dataset.mode === "draw"
+      })[0].classList.add("active");
     }
 }
