@@ -82,6 +82,19 @@ class Paint {
       });
     }
   }
+
+  changeSize : function(e) {
+    //wartość wyświetlana przy input:range
+    this.sizeElemVal.innerText = e.target.value;
+    //zmieniamy wielkość rysowania
+    this.ctx.lineWidth = e.target.value;
+  },
+
+  changeColor : function(e) {
+    //zmieniamy kolor rysowania
+    const color = this.colorElem.value;
+    this.ctx.strokeStyle = color;
+  }
 }
 
 new Paint();
