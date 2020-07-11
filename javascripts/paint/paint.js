@@ -1,7 +1,9 @@
 class Paint {
   constructor() {
+    this.avaibleMode = ["draw", "line", "rectangle"];
     this.img = new Image();
-    this.img.addEventListener("load", () => { //funkcja strzałkowa by nie zgubić this
+    this.img.addEventListener("load", () => {
+      //funkcja strzałkowa by nie zgubić this
       this.canvasCnt = document.querySelector(".paint-canvas-cnt");
       this.createCanvas();
       this.setControls();
@@ -16,11 +18,11 @@ class Paint {
   }
 
   createCanvas() {
-    this.canvas = document.createElement('canvas');
+    this.canvas = document.createElement("canvas");
     this.canvas.width = this.canvasCnt.offsetWidth;
     this.canvas.height = this.canvasCnt.offsetHeight;
     this.canvasCnt.appendChild(this.canvas);
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext("2d");
   }
 
   setControls() {
@@ -35,12 +37,16 @@ class Paint {
     this.colorElem = document.querySelector(".paint-color");
 
     //przyciski akcji - zamieniamy je na tablicę by łatwiej działać
-    this.btnsMode = [...document.querySelectorAll(".paint-buttons-cnt .button-mode")];
+    this.btnsMode = [
+      ...document.querySelectorAll(".paint-buttons-cnt .button-mode"),
+    ];
 
     //dla przycisku z trybem draw dodajemy klasę active
-    this.btnsMode.filter(function(el) {
-      return el.dataset.mode === "draw"
-    })[0].classList.add("active");
+    this.btnsMode
+      .filter(function (el) {
+        return el.dataset.mode === "draw";
+      })[0]
+      .classList.add("active");
   }
 
   setupInitialCtx() {
@@ -60,7 +66,7 @@ class Paint {
     this.sizeElem.addEventListener("change", this.changeSize.bind(this));
     this.sizeElem.addEventListener("input", this.changeSize.bind(this));
 
-    this.colorElem.addEventListener("change", this.changeColor.bind(this))
+    this.colorElem.addEventListener("change", this.changeColor.bind(this));
 
     this.canvasCnt.addEventListener("mousemove", this.mouseMove.bind(this));
     this.canvasCnt.addEventListener("mouseup", this.mouseDisable.bind(this));
@@ -78,22 +84,29 @@ class Paint {
           if (el !== e.currentTarget) {
             el.classList.remove("active");
           }
-        };
+        }
       });
     }
   }
 
-  changeSize : function(e) {
+  changeSize(e) {
     //wartość wyświetlana przy input:range
     this.sizeElemVal.innerText = e.target.value;
     //zmieniamy wielkość rysowania
     this.ctx.lineWidth = e.target.value;
-  },
+  }
 
-  changeColor : function(e) {
+  changeColor(e) {
     //zmieniamy kolor rysowania
     const color = this.colorElem.value;
     this.ctx.strokeStyle = color;
+  }
+
+  enableMode(mode) {
+    //sprawdzamy czy włączany tryb jest poprawny
+    if (this.avaibleMode.indexOf(mode) !== -1) {
+      this.mode = mode;
+    }
   }
 }
 
