@@ -1,20 +1,22 @@
 class Paint {
   constructor() {
-    this.avaibleMode = ["draw", "line", "rectangle"];
-    this.img = new Image();
-    this.img.addEventListener("load", () => {
+    this.canvasBg = new Image();
+    this.canvasBg.addEventListener("load", () => {
+      this.avaibleMode = ["draw", "line", "rectangle"];
       //funkcja strzałkowa by nie zgubić this
       this.canvasCnt = document.querySelector(".paint-canvas-cnt");
       this.createCanvas();
-      this.setControls();
-      this.bindControls();
 
       //czy mozemy rysowac
       this.canDraw = false;
       this.mode = "draw";
+
+      this.setControls();
+      this.bindControls();
+
       this.setupInitialCtx();
     });
-    this.img.src = "images/paint/canvas-bg.png";
+    this.canvasBg.src = "images/paint/canvas-bg.png";
   }
 
   createCanvas() {
@@ -58,6 +60,51 @@ class Paint {
     this.ctx.lineJoin = "round";
     this.ctx.lineCap = "round";
     this.ctx.strokeStyle = this.colorElem.value;
+  }
+
+  mouseEnable(e) {
+    this.canDraw = true;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.startX, this.startY);
+  }
+
+  mouseDisable(e) {
+    this.canDraw = false;
+  }
+
+  mouseMove(e) {
+    if (this.canDraw) {
+      const mousePos = this.getMousePosition(e);
+
+      if (this.mode === "draw") {
+        this.ctx.lineTo(mousePos.x, mousePos.y);
+        this.ctx.stroke();
+      }
+    }
+  }
+
+  getMousePosition(e) {
+    const mouseX = e.pageX - this.getElementPos(this.canvas).left;
+    const mouseY = e.pageY - this.getElementPos(this.canvas).top;
+
+    return {
+      x: mouseX,
+      y: mouseY,
+    };
+  }
+
+  getElementPos(obj) {
+    let top = 0;
+    let left = 0;
+    while (obj && obj.tagName != "BODY") {
+      top += obj.offsetTop - obj.scrollTop;
+      left += obj.offsetLeft - obj.scrollLeft;
+      obj = obj.offsetParent;
+    }
+    return {
+      top: top,
+      left: left,
+    };
   }
 
   bindControls() {
