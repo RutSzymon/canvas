@@ -86,7 +86,11 @@ class Paint {
   mouseDisable(e) {
     this.canDraw = false;
 
-    if (this.mode === "line" || this.mode === "rectangle") {
+    if (
+      this.mode === "line" ||
+      this.mode === "rectangle" ||
+      this.mode === "circle"
+    ) {
       //klonujemy canvas2 na 1
       this.ctx.drawImage(this.canvas2, 0, 0);
       //czyścimy 2 canvas
@@ -124,6 +128,18 @@ class Paint {
           mousePos.y - this.startY
         );
         this.ctx2.closePath();
+        this.ctx2.stroke();
+      }
+      if (this.mode === "circle") {
+        this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+        this.ctx2.beginPath();
+        this.ctx2.arc(
+          this.startX,
+          this.startY,
+          mousePos.x - this.startX,
+          0,
+          2 * Math.PI
+        );
         this.ctx2.stroke();
       }
     }
