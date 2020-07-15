@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Paint</title>
-  <link rel="stylesheet" href="stylesheets/paint.css" />
-</head>
-<body>
-<div class="paint">
-  <div class="paint-bar">
-    <input id="paintSize" type="range" class="paint-size" min="1" max="50" value="5">
-    <output for="paintSize" class="paint-size-val"></output>
+  <head>
+    <title>Paint</title>
+    <link rel="stylesheet" href="stylesheets/paint.css" />
+  </head>
+  <body>
+    <div class="paint">
+      <div class="paint-bar">
+        <input
+          id="paintSize"
+          type="range"
+          class="paint-size"
+          min="1"
+          max="50"
+          value="5"
+        />
+        <output for="paintSize" class="paint-size-val"></output>
 
-    <input type="color" class="paint-color">
+        <input type="color" class="paint-color" />
 
-    <div class="paint-buttons-cnt">
-      <button data-mode="draw" class="button-mode" type="button">
-        Draw
-      </button>
-      <button data-mode="line" class="button-mode" type="button">
-        Line
-      </button>
-      <button data-mode="rectangle" class="button-mode" type="button">
-        Rectangle
-      </button>
+        <div class="paint-buttons-cnt">
+          <button data-mode="draw" class="button-mode" type="button">
+            Draw
+          </button>
+          <button data-mode="line" class="button-mode" type="button">
+            Line
+          </button>
+          <button data-mode="rectangle" class="button-mode" type="button">
+            Rectangle
+          </button>
+          <button data-mode="circle" class="button-mode" type="button">
+            Circle
+          </button>
+          <button data-mode="triangle" class="button-mode" type="button">
+            Triangle
+          </button>
+        </div>
+      </div>
+
+      <div class="paint-canvas-cnt"></div>
+
+      <script src="javascripts/paint/paint.js"></script>
     </div>
-  </div>
-
-  <div class="paint-canvas-cnt">
-  </div>
-
-  <script src="javascripts/paint/paint.js"></script>
-</div>
+  </body>
+</html>
