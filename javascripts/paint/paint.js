@@ -25,6 +25,12 @@ class Paint {
     this.canvas.height = this.canvasCnt.offsetHeight;
     this.canvasCnt.appendChild(this.canvas);
     this.ctx = this.canvas.getContext("2d");
+
+    this.canvas2 = document.createElement("canvas");
+    this.canvas2.width = this.canvasCnt.offsetWidth;
+    this.canvas2.height = this.canvasCnt.offsetHeight;
+    this.canvasCnt.appendChild(this.canvas2);
+    this.ctx2 = this.canvas2.getContext("2d");
   }
 
   setControls() {
@@ -60,16 +66,32 @@ class Paint {
     this.ctx.lineJoin = "round";
     this.ctx.lineCap = "round";
     this.ctx.strokeStyle = this.colorElem.value;
+
+    //zaokrąglenia nie musimy tutaj ustawiać
+    this.ctx2.lineWidth = this.sizeElem.value;
+    this.ctx2.strokeStyle = this.colorElem.value;
   }
 
   mouseEnable(e) {
     this.canDraw = true;
+
+    const mousePos = this.getMousePosition(e);
+    this.startX = mousePos.x;
+    this.startY = mousePos.y;
+
     this.ctx.beginPath();
     this.ctx.moveTo(this.startX, this.startY);
   }
 
   mouseDisable(e) {
     this.canDraw = false;
+
+    if (this.mode === "line") {
+      //klonujemy canvas2 na 1
+      this.ctx.drawImage(this.canvas2, 0, 0);
+      //czyścimy 2 canvas
+      this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+    }
   }
 
   mouseMove(e) {
@@ -79,6 +101,17 @@ class Paint {
       if (this.mode === "draw") {
         this.ctx.lineTo(mousePos.x, mousePos.y);
         this.ctx.stroke();
+      }
+      if (this.mode === "line") {
+        //w każdej klatce czyścimy canvas2
+        this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+        this.ctx2.beginPath();
+        //rysujemy linię od początkowej pozycji
+        this.ctx2.moveTo(this.startX, this.startY);
+        //do aktualnej pozycji kursora
+        this.ctx2.lineTo(mousePos.x, mousePos.y);
+        this.ctx2.closePath();
+        this.ctx2.stroke();
       }
     }
   }
@@ -141,12 +174,14 @@ class Paint {
     this.sizeElemVal.innerText = e.target.value;
     //zmieniamy wielkość rysowania
     this.ctx.lineWidth = e.target.value;
+    this.ctx2.lineWidth = e.target.value;
   }
 
   changeColor(e) {
     //zmieniamy kolor rysowania
     const color = this.colorElem.value;
     this.ctx.strokeStyle = color;
+    this.ctx2.strokeStyle = color;
   }
 
   enableMode(mode) {
