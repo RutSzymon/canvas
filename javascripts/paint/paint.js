@@ -89,7 +89,8 @@ class Paint {
     if (
       this.mode === "line" ||
       this.mode === "rectangle" ||
-      this.mode === "circle"
+      this.mode === "circle" ||
+      this.mode === "triangle"
     ) {
       //klonujemy canvas2 na 1
       this.ctx.drawImage(this.canvas2, 0, 0);
@@ -140,6 +141,15 @@ class Paint {
           0,
           2 * Math.PI
         );
+        this.ctx2.stroke();
+      }
+      if (this.mode === "triangle") {
+        this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+        this.ctx2.beginPath();
+        this.ctx2.moveTo((this.startX + mousePos.x) / 2, this.startY);
+        this.ctx2.lineTo(mousePos.x, mousePos.y);
+        this.ctx2.lineTo(this.startX, mousePos.y);
+        this.ctx2.closePath();
         this.ctx2.stroke();
       }
     }
