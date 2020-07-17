@@ -93,7 +93,7 @@ scene.add(dirLight);
 
 var floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
 var floorMaterial = new THREE.MeshPhongMaterial({
-  color: 0xff0000,
+  color: 0xeeeeee,
   shininess: 0,
 });
 
