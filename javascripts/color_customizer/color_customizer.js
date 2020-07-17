@@ -1,3 +1,5 @@
+var activeOption = "legs";
+
 const TRAY = document.getElementById("js-tray-slide");
 const colors = [
   {
@@ -173,6 +175,22 @@ function buildColors(colors) {
 
 buildColors(colors);
 
+// Select chair's part
+const options = document.querySelectorAll(".option");
+
+for (const option of options) {
+  option.addEventListener("click", selectOption);
+}
+
+function selectOption(e) {
+  let option = e.target;
+  activeOption = e.target.dataset.option;
+  for (const otherOption of options) {
+    otherOption.classList.remove("--is-active");
+  }
+  option.classList.add("--is-active");
+}
+
 const swatches = document.querySelectorAll(".tray__swatch");
 
 for (const swatch of swatches) {
@@ -188,7 +206,7 @@ function selectSwatch(e) {
     shininess: color.shininess ? color.shininess : 10,
   });
 
-  setMaterial(theModel, "legs", new_mtl);
+  setMaterial(theModel, activeOption, new_mtl);
 }
 
 function setMaterial(parent, type, mtl) {
