@@ -1,3 +1,7 @@
+var theModel;
+
+const MODEL_PATH =
+  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb";
 const BACKGROUND_COLOR = 0xf1f1f1;
 const scene = new THREE.Scene();
 const canvas = document.querySelector("#c");
@@ -17,6 +21,22 @@ var camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = cameraFar;
 camera.position.x = 0;
+
+var loader = new THREE.GLTFLoader();
+
+loader.load(
+  MODEL_PATH,
+  function (gltf) {
+    theModel = gltf.scene;
+    theModel.scale.set(2, 2, 2);
+    theModel.position.y = -1;
+    scene.add(theModel);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
 
 function animate() {
   renderer.render(scene, camera);
