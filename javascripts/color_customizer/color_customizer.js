@@ -26,6 +26,19 @@ var camera = new THREE.PerspectiveCamera(
 camera.position.z = cameraFar;
 camera.position.x = 0;
 
+const INITIAL_MTL = new THREE.MeshPhongMaterial({
+  color: 0xf1f1f1,
+  shininess: 10,
+});
+
+const INITIAL_MAP = [
+  { childID: "back", mtl: INITIAL_MTL },
+  { childID: "base", mtl: INITIAL_MTL },
+  { childID: "cushions", mtl: INITIAL_MTL },
+  { childID: "legs", mtl: INITIAL_MTL },
+  { childID: "supports", mtl: INITIAL_MTL },
+];
+
 var loader = new THREE.GLTFLoader();
 
 loader.load(
@@ -41,6 +54,11 @@ loader.load(
     theModel.scale.set(2, 2, 2);
     theModel.rotation.y = Math.PI;
     theModel.position.y = -1;
+
+    for (let object of INITIAL_MAP) {
+      initColor(theModel, object.childID, object.mtl);
+    }
+
     scene.add(theModel);
   },
   undefined,
@@ -48,6 +66,17 @@ loader.load(
     console.error(error);
   }
 );
+
+function initColor(parent, type, mtl) {
+  parent.traverse((o) => {
+    if (o.isMesh) {
+      if (o.name.includes(type)) {
+        o.material = mtl;
+        o.nameID = type;
+      }
+    }
+  });
+}
 
 // Add lights
 var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
