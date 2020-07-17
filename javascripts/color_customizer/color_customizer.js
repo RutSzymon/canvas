@@ -50,6 +50,20 @@ dirLight.castShadow = true;
 dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
 scene.add(dirLight);
 
+// Add floor
+
+var floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
+var floorMaterial = new THREE.MeshPhongMaterial({
+  color: 0xff0000,
+  shininess: 0,
+});
+
+var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+floor.rotation.x = -0.5 * Math.PI;
+floor.receiveShadow = true;
+floor.position.y = -1;
+scene.add(floor);
+
 function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
