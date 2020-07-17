@@ -2,13 +2,17 @@ var theModel;
 
 const MODEL_PATH =
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb";
+
 const BACKGROUND_COLOR = 0xf1f1f1;
 const scene = new THREE.Scene();
-const canvas = document.querySelector("#c");
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-
 scene.background = new THREE.Color(BACKGROUND_COLOR);
 scene.fog = new THREE.Fog(BACKGROUND_COLOR, 20, 100);
+
+const canvas = document.querySelector("#c");
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.shadowMap.enabled = true;
+renderer.setPixelRatio(window.devicePixelRatio);
 
 document.body.appendChild(renderer.domElement);
 
@@ -28,6 +32,12 @@ loader.load(
   MODEL_PATH,
   function (gltf) {
     theModel = gltf.scene;
+    theModel.traverse((o) => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+      }
+    });
     theModel.scale.set(2, 2, 2);
     theModel.rotation.y = Math.PI;
     theModel.position.y = -1;
