@@ -52,6 +52,26 @@ scene.add(dirLight);
 function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
+
+  if (resizeRendererToDisplaySize(renderer)) {
+    const canvas = renderer.domElement;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+  }
 }
 
 animate();
+
+function resizeRendererToDisplaySize(renderer) {
+  const canvas = renderer.domElement;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var canvasPixelWidth = canvas.width / window.devicePixelRatio;
+  var canvasPixelHeight = canvas.height / window.devicePixelRatio;
+
+  const needResize = canvasPixelWidth !== width || canvasPixelHeight !== height;
+  if (needResize) {
+    renderer.setSize(width, height, false);
+  }
+  return needResize;
+}
