@@ -103,7 +103,18 @@ floor.receiveShadow = true;
 floor.position.y = -1;
 scene.add(floor);
 
+// Add controls
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.maxPolarAngle = Math.PI / 2;
+controls.minPolarAngle = Math.PI / 3;
+controls.enableDamping = true;
+controls.enablePan = false;
+controls.dampingFactor = 0.1;
+controls.autoRotate = false;
+controls.autoRotateSpeed = 0.2;
+
 function animate() {
+  controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 
