@@ -1,5 +1,23 @@
-var theModel;
+const TRAY = document.getElementById("js-tray-slide");
+const colors = [
+  {
+    color: "66533C",
+  },
+  {
+    color: "173A2F",
+  },
+  {
+    color: "153944",
+  },
+  {
+    color: "27548D",
+  },
+  {
+    color: "438AAC",
+  },
+];
 
+var theModel;
 const MODEL_PATH =
   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb";
 
@@ -140,3 +158,17 @@ function resizeRendererToDisplaySize(renderer) {
   }
   return needResize;
 }
+
+function buildColors(colors) {
+  for (let [i, color] of colors.entries()) {
+    let swatch = document.createElement("div");
+    swatch.classList.add("tray__swatch");
+
+    swatch.style.background = "#" + color.color;
+
+    swatch.setAttribute("data-key", i);
+    TRAY.append(swatch);
+  }
+}
+
+buildColors(colors);
