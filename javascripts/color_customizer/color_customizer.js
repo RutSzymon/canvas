@@ -1,3 +1,5 @@
+const LOADER = document.getElementById("js-loader");
+
 const DRAG_NOTICE = document.getElementById("js-drag-notice");
 
 var loaded = false;
@@ -244,6 +246,8 @@ loader.load(
     }
 
     scene.add(theModel);
+
+    LOADER.remove();
   },
   undefined,
   function (error) {
