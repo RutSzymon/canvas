@@ -1,3 +1,5 @@
+var loaded = false;
+
 var activeOption = "legs";
 
 const TRAY = document.getElementById("js-tray-slide");
@@ -153,6 +155,10 @@ function animate() {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
+
+  if (theModel != null && loaded == false) {
+    initialRotation();
+  }
 }
 
 animate();
@@ -244,4 +250,15 @@ function setMaterial(parent, type, mtl) {
       }
     }
   });
+}
+
+let initRotate = 0;
+
+function initialRotation() {
+  initRotate++;
+  if (initRotate <= 120) {
+    theModel.rotation.y += Math.PI / 60;
+  } else {
+    loaded = true;
+  }
 }
