@@ -1,3 +1,5 @@
+const DRAG_NOTICE = document.getElementById("js-drag-notice");
+
 var loaded = false;
 
 var activeOption = "legs";
@@ -158,6 +160,7 @@ function animate() {
 
   if (theModel != null && loaded == false) {
     initialRotation();
+    DRAG_NOTICE.classList.add("start");
   }
 }
 
