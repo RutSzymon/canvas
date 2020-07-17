@@ -29,6 +29,7 @@ loader.load(
   function (gltf) {
     theModel = gltf.scene;
     theModel.scale.set(2, 2, 2);
+    theModel.rotation.y = Math.PI;
     theModel.position.y = -1;
     scene.add(theModel);
   },
