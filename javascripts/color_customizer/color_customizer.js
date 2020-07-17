@@ -172,3 +172,31 @@ function buildColors(colors) {
 }
 
 buildColors(colors);
+
+const swatches = document.querySelectorAll(".tray__swatch");
+
+for (const swatch of swatches) {
+  swatch.addEventListener("click", selectSwatch);
+}
+
+function selectSwatch(e) {
+  let color = colors[parseInt(e.target.dataset.key)];
+  let new_mtl;
+
+  new_mtl = new THREE.MeshPhongMaterial({
+    color: parseInt("0x" + color.color),
+    shininess: color.shininess ? color.shininess : 10,
+  });
+
+  setMaterial(theModel, "legs", new_mtl);
+}
+
+function setMaterial(parent, type, mtl) {
+  parent.traverse((o) => {
+    if (o.isMesh && o.nameID != null) {
+      if (o.nameID == type) {
+        o.material = mtl;
+      }
+    }
+  });
+}
