@@ -1,6 +1,10 @@
+const BACKGROUND_COLOR = 0xf1f1f1;
 const scene = new THREE.Scene();
 const canvas = document.querySelector("#c");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+
+scene.background = new THREE.Color(BACKGROUND_COLOR);
+scene.fog = new THREE.Fog(BACKGROUND_COLOR, 20, 100);
 
 document.body.appendChild(renderer.domElement);
 
