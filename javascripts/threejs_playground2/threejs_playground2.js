@@ -19,6 +19,19 @@ const handleResize = () => {
   camera.updateProjectionMatrix();
 };
 
+const createSphere = (r = 1, color = 0xffffff) => {
+  const spehereMat = new THREE.MeshPhongMaterial({
+    color,
+    shininess: 50,
+  });
+  const sphereGeo = new THREE.SphereGeometry(r, 20, 20);
+  return new THREE.Mesh(sphereGeo, spehereMat);
+};
+
+const createLight = (i = 1, color = 0xffffff) => {
+  return new THREE.PointLight(color, i);
+};
+
 const loop = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
