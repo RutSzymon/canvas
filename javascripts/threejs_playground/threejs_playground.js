@@ -20,13 +20,8 @@ const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 const light = new THREE.PointLight(colorLight, 2);
 const light2 = new THREE.PointLight(colorLight, 0.5);
 
-light.position.z = 20;
-light.position.y = -20;
-light.position.x = -40;
-
-light2.position.z = 10;
-light2.position.y = 20;
-light2.position.x = 40;
+light.position.set(-40, -20, 20);
+light2.position.set(40, 20, 10);
 
 scene.add(light);
 scene.add(light2);
