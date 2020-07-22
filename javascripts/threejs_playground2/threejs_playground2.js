@@ -2,7 +2,7 @@ let scene, camera, renderer;
 
 scene = new THREE.Scene();
 camera = new THREE.PerspectiveCamera(
-  20,
+  60,
   window.innerWidth / window.innerHeight,
   0.0001,
   10000
@@ -22,13 +22,13 @@ const handleResize = () => {
 const createSphere = (r = 1, color = 0xffffff) => {
   const spehereMat = new THREE.MeshPhongMaterial({
     color,
-    shininess: 50,
+    shininess: 30,
   });
   const sphereGeo = new THREE.SphereGeometry(r, 20, 20);
   return new THREE.Mesh(sphereGeo, spehereMat);
 };
 
-const createLight = (i = 1, color = 0xffffff) => {
+const createPointLight = (i = 1, color = 0xffffff) => {
   return new THREE.PointLight(color, i);
 };
 
@@ -36,6 +36,14 @@ const loop = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 };
+
+const nucleus = createSphere(3);
+const l1 = createPointLight(0.5);
+const l2 = createPointLight(0.2);
+l1.position.set(30, 5, 10);
+l2.position.set(-60, 0, 20);
+
+scene.add(nucleus, l1, l2);
 
 loop();
 window.addEventListener("resize", handleResize);
