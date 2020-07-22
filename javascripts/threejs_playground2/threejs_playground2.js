@@ -60,7 +60,10 @@ e3.sphere.position.set(-5, 0, 0);
 e4.sphere.position.set(-10, 0, 0);
 nucleus.add(e1.pivot, e2.pivot, e3.pivot, e4.pivot);
 
-// scene.add(e1, e2, e3, e4);
+e1.pivot.rotation.y = 120;
+e2.pivot.rotation.y = 60;
+e3.pivot.rotation.y = -60;
+e4.pivot.rotation.y = -120;
 
 const loop = () => {
   e1.pivot.rotation.z += 0.01;
