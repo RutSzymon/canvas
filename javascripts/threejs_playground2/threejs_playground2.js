@@ -32,11 +32,6 @@ const createPointLight = (i = 1, color = 0xffffff) => {
   return new THREE.PointLight(color, i);
 };
 
-const loop = () => {
-  renderer.render(scene, camera);
-  requestAnimationFrame(loop);
-};
-
 const nucleus = createSphere(3);
 const l1 = createPointLight(0.8);
 const l2 = createPointLight(0.4);
@@ -45,16 +40,39 @@ l2.position.set(-30, 0, 20);
 
 scene.add(nucleus, l1, l2);
 
-const e1 = createSphere(0.4);
-const e2 = createSphere(0.4);
-const e3 = createSphere(0.4);
-const e4 = createSphere(0.4);
-e1.position.set(10, 0, 0);
-e2.position.set(5, 0, 0);
-e3.position.set(-5, 0, 0);
-e4.position.set(-10, 0, 0);
+const createElectron = (r = 0.4, color = 0xffffff) => {
+  const sphere = createSphere(r, color);
+  const pivot = new THREE.Object3D();
+  pivot.add(sphere);
+  return {
+    sphere,
+    pivot,
+  };
+};
 
-scene.add(e1, e2, e3, e4);
+const e1 = createElectron(0.4);
+const e2 = createElectron(0.4);
+const e3 = createElectron(0.4);
+const e4 = createElectron(0.4);
+e1.sphere.position.set(10, 0, 0);
+e2.sphere.position.set(5, 0, 0);
+e3.sphere.position.set(-5, 0, 0);
+e4.sphere.position.set(-10, 0, 0);
+nucleus.add(e1.pivot, e2.pivot, e3.pivot, e4.pivot);
+
+// scene.add(e1, e2, e3, e4);
+
+const loop = () => {
+  e1.pivot.rotation.z += 0.01;
+  e2.pivot.rotation.z += 0.01;
+  e3.pivot.rotation.z += 0.01;
+  e4.pivot.rotation.z += 0.01;
+  nucleus.rotation.z += 0.001;
+  nucleus.rotation.x += 0.002;
+  nucleus.rotation.y += 0.003;
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+};
 
 loop();
 window.addEventListener("resize", handleResize);
