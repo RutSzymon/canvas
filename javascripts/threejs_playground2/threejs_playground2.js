@@ -2,7 +2,7 @@ let scene, camera, renderer;
 
 scene = new THREE.Scene();
 camera = new THREE.PerspectiveCamera(
-  60,
+  40,
   window.innerWidth / window.innerHeight,
   0.0001,
   10000
@@ -38,12 +38,23 @@ const loop = () => {
 };
 
 const nucleus = createSphere(3);
-const l1 = createPointLight(0.5);
-const l2 = createPointLight(0.2);
-l1.position.set(30, 5, 10);
-l2.position.set(-60, 0, 20);
+const l1 = createPointLight(0.8);
+const l2 = createPointLight(0.4);
+l1.position.set(60, 20, 60);
+l2.position.set(-30, 0, 20);
 
 scene.add(nucleus, l1, l2);
+
+const e1 = createSphere(0.4);
+const e2 = createSphere(0.4);
+const e3 = createSphere(0.4);
+const e4 = createSphere(0.4);
+e1.position.set(10, 0, 0);
+e2.position.set(5, 0, 0);
+e3.position.set(-5, 0, 0);
+e4.position.set(-10, 0, 0);
+
+scene.add(e1, e2, e3, e4);
 
 loop();
 window.addEventListener("resize", handleResize);
